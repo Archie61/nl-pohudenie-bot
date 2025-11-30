@@ -3,8 +3,9 @@ from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKe
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters import Command
+
 from config import MANAGER_ID
-from database import save_lead
+from database import save_lead, get_lead
 
 router = Router()
 
@@ -90,8 +91,8 @@ async def process_problem(message: Message, state: FSMContext):
     data = await state.get_data()
     username = message.from_user.username or "нет"
     
-    # Сохраняем в Google Sheets
-    await save_lead(
+    # Сохраняем в SQLite
+    save_lead(
         message.from_user.id, data['name'], data['age'], 
         data['current_weight'], data['goal'], message.text, username
     )
@@ -116,3 +117,28 @@ async def process_problem(message: Message, state: FSMContext):
         parse_mode="Markdown"
     )
     await state.clear()
+
+@router.callback_query(F.data == "products")
+async def products_info(callback: CallbackQuery):
+    text = (
+        "💊 **Продукты NL для похудения:**\n\n"
+        "• *Energy Diet* — сбалансированные коктейли\n"
+        "• *Smart GO* — готовые к употреблению\n"
+        "• *3D Slim* — программа на 21 день\n"
+        "• *DrainEffect* — дренаж от отеков\n"
+        "• *Greenflash* — БАДы для обмена веществ\n\n"
+        "Результаты через 7-14 дней!"
+    )
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="📝 Заполнить анкету", callback_data="register")]
+    ])
+    await callback.message.edit_text(text, reply_markup=kb, parse_mode="Markdown")
+    await callback.answer()
+
+@router.callback_query(F.data == "contact")
+async def contact(callback: CallbackQuery):
+    await callback.message.edit_text(
+        "📞 Консультант свяжется с вами в течение 30 минут\n"
+        "после заполнения анкеты!"
+    )
+    await callback.answer()
