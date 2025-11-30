@@ -2,16 +2,15 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
-from dotenv import load_dotenv
+
 from config import BOT_TOKEN
-from database import init_sheets
+from database import init_db
 from handlers import router
 
-load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
 async def main():
-    await init_sheets()
+    init_db()
     
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher(storage=MemoryStorage())
