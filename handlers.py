@@ -24,10 +24,16 @@ async def cmd_start(message: Message, state: FSMContext):
         [InlineKeyboardButton(text="📞 Консультант", callback_data="contact")]
     ])
     await message.answer(
-        "👋 **Хотите избавиться от лишнего веса?**\n\n"
-        "✅ *Программы похудения NL International*\n"
-        "✅ *Коктейли Energy Diet* и *Smart GO*\n"
-        "✅ *БАДы Greenflash* для метаболизма\n\n"
+        "👋 **Хотите избавиться от лишнего веса?**
+
+"
+        "✅ *Программы похудения NL International*
+"
+        "✅ *Коктейли Energy Diet* и *Smart GO*
+"
+        "✅ *БАДы Greenflash* для метаболизма
+
+"
         "**Заполните анкету за 1 минуту!**",
         reply_markup=kb, parse_mode="Markdown"
     )
@@ -79,7 +85,8 @@ async def process_goal(callback: CallbackQuery, state: FSMContext):
     }
     await state.update_data(goal=goals[callback.data])
     await callback.message.edit_text(
-        "😟 **Какая основная проблема?**\n"
+        "😟 **Какая основная проблема?**
+"
         "_переедание, гормоны, медленный метаболизм, отеки, другое_",
         parse_mode="Markdown"
     )
@@ -99,20 +106,32 @@ async def process_problem(message: Message, state: FSMContext):
     
     # Уведомление жене
     lead_text = (
-        f"🆕 **Новый клиент!**\n\n"
-        f"👤 {data['name']}, {data['age']} лет\n"
-        f"⚖️ {data['current_weight']} кг\n"
-        f"🎯 {data['goal']}\n"
-        f"😟 {message.text}\n\n"
+        f"🆕 **Новый клиент!**
+
+"
+        f"👤 {data['name']}, {data['age']} лет
+"
+        f"⚖️ {data['current_weight']} кг
+"
+        f"🎯 {data['goal']}
+"
+        f"😟 {message.text}
+
+"
         f"🆔 @{username} (ID: {message.from_user.id})"
     )
     await message.bot.send_message(MANAGER_ID, lead_text, parse_mode="Markdown")
     
     # Подтверждение
     await message.answer(
-        "✅ **Спасибо! Данные приняты.**\n\n"
-        "💌 *Диетолог свяжется в течение 30 минут*\n"
-        "для подбора **индивидуальной программы NL**!\n\n"
+        "✅ **Спасибо! Данные приняты.**
+
+"
+        "💌 *Диетолог свяжется в течение 30 минут*
+"
+        "для подбора **индивидуальной программы NL**!
+
+"
         "⏰ Обычно отвечает быстро.",
         parse_mode="Markdown"
     )
@@ -121,12 +140,20 @@ async def process_problem(message: Message, state: FSMContext):
 @router.callback_query(F.data == "products")
 async def products_info(callback: CallbackQuery):
     text = (
-        "💊 **Продукты NL для похудения:**\n\n"
-        "• *Energy Diet* — сбалансированные коктейли\n"
-        "• *Smart GO* — готовые к употреблению\n"
-        "• *3D Slim* — программа на 21 день\n"
-        "• *DrainEffect* — дренаж от отеков\n"
-        "• *Greenflash* — БАДы для обмена веществ\n\n"
+        "💊 **Продукты NL для похудения:**
+
+"
+        "• *Energy Diet* — сбалансированные коктейли
+"
+        "• *Smart GO* — готовые к употреблению
+"
+        "• *3D Slim* — программа на 21 день
+"
+        "• *DrainEffect* — дренаж от отеков
+"
+        "• *Greenflash* — БАДы для обмена веществ
+
+"
         "Результаты через 7-14 дней!"
     )
     kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -138,7 +165,8 @@ async def products_info(callback: CallbackQuery):
 @router.callback_query(F.data == "contact")
 async def contact(callback: CallbackQuery):
     await callback.message.edit_text(
-        "📞 Консультант свяжется с вами в течение 30 минут\n"
+        "📞 Консультант свяжется с вами в течение 30 минут
+"
         "после заполнения анкеты!"
     )
     await callback.answer()
