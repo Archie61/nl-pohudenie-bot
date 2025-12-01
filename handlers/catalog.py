@@ -49,7 +49,12 @@ async def show_category(callback: types.CallbackQuery):
         return
     
     products = PRODUCTS[category]
-    text = f"**📦 Товары в категории:**
+    text = (
+    f"🏪 Товары в категории:
+
+"
+    "Выберите интересующую вас категорию:"
+)
 
 "
     
